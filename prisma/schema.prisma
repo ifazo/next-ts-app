@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  user
+  admin
+  super_admin
+}
+
+model User {
+  id        String     @id @default(uuid())
+  email     String     @unique
+  password  String
+  name      String?
+  image     String?
+  role      Role       @default(user)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt()
+  Service   Service[]
+  Review    Review[]
+  Booking   Booking[]
+  Wishlist  Wishlist[]
+
+  @@map("users")
+}
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Service   Service[]
+
+  @@map("categories")
+}
+
+model Service {
+  id          String     @id @default(uuid())
+  name        String
+  description String
+  price       String
+  image       String
+  category    String
+  categories  Category   @relation(fields: [category], references: [name])
+  user        String
+  users       User       @relation(fields: [user], references: [email])
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  Review      Review[]
+  Booking     Booking[]
+  Wishlist    Wishlist[]
+
+  @@map("services")
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  rating    String
+  review    String
+  name      String
+  image     String
+  user      String
+  users     User     @relation(fields: [user], references: [email])
+  service   String
+  services  Service  @relation(fields: [service], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("reviews")
+}
+
+model Post {
+  id        String   @id @default(uuid())
+  title     String
+  image     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("posts")
+}
+
+model Booking {
+  id        String   @id @default(uuid())
+  startDate DateTime
+  endDate   DateTime
+  user      String
+  users     User     @relation(fields: [user], references: [email])
+  service   String
+  services  Service  @relation(fields: [service], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("bookings")
+}
+
+model Wishlist {
+  id        String   @id @default(uuid())
+  user      String
+  users     User     @relation(fields: [user], references: [email])
+  service   String
+  services  Service  @relation(fields: [service], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("wishlists")
+}
