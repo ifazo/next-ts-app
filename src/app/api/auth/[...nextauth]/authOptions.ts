@@ -2,16 +2,8 @@ import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import jwt, { JwtPayload, Secret } from "jsonwebtoken";
-import { PrismaClient } from "@prisma/client";
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import { refreshToken } from "@/utils/refreshToken";
-
-// const prisma = new PrismaClient();
 
 export const authOptions: AuthOptions = {
-  //! Do not use PrismaAdapter, it shows callback error
-  // adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
       id: "credentials",
@@ -29,14 +21,7 @@ export const authOptions: AuthOptions = {
             headers: { "Content-Type": "application/json" },
           });
           const data = await res.json();
-          const token = jwt.verify(
-            data?.token,
-            process.env.NEXTAUTH_SECRET as Secret
-          ) as JwtPayload;
-          return {
-            ...data,
-            ...token,
-          };
+          return data;
         } catch (err) {
           return null;
         }

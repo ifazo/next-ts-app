@@ -1,21 +1,27 @@
 import { db } from "@/db";
 
-export async function POST(request: Request) {
-  const data = await request.json();
-  if (!data) {
-    return new Response("Request body is required", { status: 400 });
+export async function GET() {
+  try {
+    const categories = await db.categoryCollection.find({}).toArray();
+    return new Response(JSON.stringify(categories), {
+      headers: { "content-type": "application/json" },
+    });
+  } catch (error) {
+    console.log(error);
   }
-  const product = await db.category.create({
-    data,
-  });
-  return new Response(JSON.stringify(product), {
-    headers: { "content-type": "application/json" },
-  });
 }
 
-export async function GET(request: Request) {
-  const products = await db.category.findMany();
-  return new Response(JSON.stringify(products), {
-    headers: { "content-type": "application/json" },
-  });
+export async function POST(request: Request) {
+  try {
+    const data = await request.json();
+    if (!data) {
+      return new Response("Request body is required", { status: 400 });
+    }
+    const category = await db.categoryCollection.insertOne(data);
+    return new Response(JSON.stringify(category), {
+      headers: { "content-type": "application/json" },
+    });
+  } catch (error) {
+    console.log(error)
+  }
 }

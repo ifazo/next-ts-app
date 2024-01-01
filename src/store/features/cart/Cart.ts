@@ -1,7 +1,14 @@
-import { IService } from "@/types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-export interface ICartState {
+type IService = {
+  id: number;
+  name: string;
+  price: number;
+  description: string;
+  image: string;
+};
+
+interface ICartState {
   cart: IService[];
 }
 
@@ -17,7 +24,9 @@ const cartSlice = createSlice({
       state.cart.push(action.payload);
     },
     removeProduct: (state, action: PayloadAction<IService>) => {
-      state.cart = state.cart.filter((product) => (product.id !== action.payload.id));
+      state.cart = state.cart.filter(
+        (product) => product.id !== action.payload.id
+      );
     },
     clearProducts: (state) => {
       state.cart = [];

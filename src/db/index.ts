@@ -1,17 +1,23 @@
-import { PrismaClient } from "@prisma/client";
+import { MongoClient, ServerApiVersion } from "mongodb";
+const uri = process.env.MONGODB_URI as string;
 
-export const prisma = new PrismaClient();
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
+});
 
-export const db = prisma;
+const database = client.db("next_js");
+const userCollection = database.collection("users");
+const productCollection = database.collection("products");
+const categoryCollection = database.collection("categories");
+const reviewCollection = database.collection("reviews");
 
-async function main() {
-  // ... you will write your Prisma Client queries here
-}
-
-main()
-  .then(async () => {
-    console.log("successfully connected to database!!");
-  })
-  .catch(async (e) => {
-    console.error(e);
-  });
+export const db = {
+  userCollection,
+  productCollection,
+  categoryCollection,
+  reviewCollection,
+};
