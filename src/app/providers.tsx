@@ -6,13 +6,13 @@ import { persistStore } from 'redux-persist'
 import { store } from '@/store/store'
 
 export function Providers({ children }: { children: React.ReactNode }) {
-    const persistor = persistStore(store)
+    // const persistor = persistStore(store)
     return (
         <SessionProvider>
             <Provider store={store}>
-                <PersistGate loading={null} persistor={persistor}>
+                {/* <PersistGate loading={null} persistor={persistor}> */}
                     {children}
-                </PersistGate>
+                {/* </PersistGate> */}
             </Provider>
         </SessionProvider>
     );

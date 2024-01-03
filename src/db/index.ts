@@ -9,15 +9,21 @@ const client = new MongoClient(uri, {
   },
 });
 
-const database = client.db("next_js");
+const database = client.db("next_ts")
 const userCollection = database.collection("users");
 const productCollection = database.collection("products");
 const categoryCollection = database.collection("categories");
 const reviewCollection = database.collection("reviews");
+const wishlistCollection = database.collection("wishlists");
+const cartCollection = database.collection("cart");
+const orderCollection = database.collection("orders");
 
 export const db = {
   userCollection,
   productCollection,
   categoryCollection,
   reviewCollection,
+  wishlistCollection,
+  cartCollection,
+  orderCollection,
 };
