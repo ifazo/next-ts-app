@@ -26,7 +26,7 @@ export default function SignIn() {
     })
       .then((res) => {
         console.log(res)
-        toast.success("Logged in successfully")
+        // toast.success("Logged in successfully")
       })
       .catch((err) => {
         console.log(err)

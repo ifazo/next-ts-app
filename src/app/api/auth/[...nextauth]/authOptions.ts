@@ -1,4 +1,3 @@
-import clientPromise from "@/lib/mongodb";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -19,11 +18,12 @@ export const authOptions: AuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: { label: "Name", type: "text", placeholder: "Name" },
+        name: { label: "Name", type: "text", placeholder: "Name" },
+        email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
-        const res = await fetch("/api/users", {
+      async authorize(credentials) {
+        const res = await fetch(`${process.env.NEXTAUTH_URL}/api/signin`, {
           method: "POST",
           body: JSON.stringify(credentials),
           headers: { "Content-Type": "application/json" },
