@@ -1,13 +1,10 @@
 import { db } from "@/db";
 import { ObjectId } from "mongodb";
-
-export async function GET({ params }: { params: { id: string } }) {
+export async function GET(request: Request) {
   try {
-    if (!params || !params.id) {
-      return new Response("Invalid request", { status: 400 });
-    }
+    const id = request.url.split("/").pop();
     const product = await db.productCollection.findOne({
-      _id: new ObjectId(params.id),
+      _id: new ObjectId(id),
     });
     if (!product) {
       return new Response("Not found", { status: 404 });
@@ -20,16 +17,11 @@ export async function GET({ params }: { params: { id: string } }) {
   }
 }
 
-export async function PATCH(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function PATCH(request: Request) {
   try {
-    if (!params || !params.id) {
-      return new Response("Invalid request", { status: 400 });
-    }
+    const id = request.url.split("/").pop();
     const product = await db.productCollection.findOneAndUpdate(
-      { _id: new ObjectId(params.id) },
+      { _id: new ObjectId(id) },
       { $set: await request.json() },
       { returnDocument: "after" }
     );
@@ -41,13 +33,11 @@ export async function PATCH(
   }
 }
 
-export async function DELETE({ params }: { params: { id: string } }) {
+export async function DELETE(request: Request) {
   try {
-    if (!params || !params.id) {
-      return new Response("Invalid request", { status: 400 });
-    }
+    const id = request.url.split("/").pop();
     const product = await db.productCollection.findOneAndDelete({
-      _id: new ObjectId(params.id),
+      _id: new ObjectId(id),
     });
     return new Response(JSON.stringify(product), {
       headers: { "content-type": "application/json" },

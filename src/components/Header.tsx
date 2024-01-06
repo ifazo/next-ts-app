@@ -1,7 +1,7 @@
 'use client'
 import { Fragment, useState } from 'react'
 import Image from 'next/image'
-import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
+import { Dialog, Menu, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars2Icon, BellIcon, ShoppingCartIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { signOut } from 'next-auth/react'
@@ -71,6 +71,12 @@ const navigation = {
     { name: 'Blog', href: '/blogs' },
   ],
 }
+
+const profile = [
+  { name: 'Profile', href: '/profile' },
+  { name: 'Dashboard', href: '/dashboard' },
+  { name: 'Cart', href: '/cart' },
+]
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -395,12 +401,6 @@ export default function Header({ session }: { session: any }) {
                       <span className="sr-only">Open menu</span>
                       <Bars2Icon className="h-6 w-6" aria-hidden="true" />
                     </button>
-
-                    {/* Search */}
-                    <Link href="#" className="ml-2 p-2 text-gray-400 hover:text-gray-500">
-                      <span className="sr-only">Search</span>
-                      <BellIcon className="w-6 h-6" aria-hidden="true" />
-                    </Link>
                   </div>
 
                   {/* Logo (lg-) */}
@@ -417,21 +417,50 @@ export default function Header({ session }: { session: any }) {
 
                   <div className="flex-1 flex items-center justify-end">
                     <div className="flex items-center lg:ml-8">
-                      <div className="flex space-x-8">
-                        <div className="hidden lg:flex">
-                          <Link href="#" className="-m-2 p-2 text-gray-400 hover:text-gray-500">
-                            <span className="sr-only">Search</span>
-                            <BellIcon className="w-6 h-6" aria-hidden="true" />
-                          </Link>
-                        </div>
-
-                        <div className="flex">
-                          <Link href="#" className="-m-2 p-2 text-gray-400 hover:text-gray-500">
-                            <span className="sr-only">Account</span>
-                            <ShoppingCartIcon className="w-6 h-6" aria-hidden="true" />
-                          </Link>
-                        </div>
-                      </div>
+                      {
+                        session ? (
+                          <div className="flex space-x-8">
+                              {/* Profile dropdown */}
+                              <Menu as="div" className="ml-3 relative">
+                                <div>
+                                  <Menu.Button className="max-w-xs bg-white flex items-center text-sm text-gray-400 hover:text-gray-500 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <span className="sr-only">Open user menu</span>
+                                    <UserIcon className="h-6 w-6" aria-hidden="true" />
+                                  </Menu.Button>
+                                </div>
+                                <Transition
+                                  as={Fragment}
+                                  enter="transition ease-out duration-100"
+                                  enterFrom="transform opacity-0 scale-95"
+                                  enterTo="transform opacity-100 scale-100"
+                                  leave="transition ease-in duration-75"
+                                  leaveFrom="transform opacity-100 scale-100"
+                                  leaveTo="transform opacity-0 scale-95"
+                                >
+                                  <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    {profile.map((item) => (
+                                      <Menu.Item key={item.name}>
+                                        {({ active }) => (
+                                          <Link
+                                            href={item.href}
+                                            className={classNames(
+                                              active ? 'bg-gray-100' : '',
+                                              'block px-4 py-2 text-sm text-gray-700'
+                                            )}
+                                          >
+                                            {item.name}
+                                          </Link>
+                                        )}
+                                      </Menu.Item>
+                                    ))}
+                                  </Menu.Items>
+                                </Transition>
+                              </Menu>
+                          </div>
+                        ) : (
+                          <div></div>
+                        )
+                      }
 
                       <span className="mx-4 h-6 w-px bg-gray-200 lg:mx-6" aria-hidden="true" />
 
@@ -444,12 +473,15 @@ export default function Header({ session }: { session: any }) {
                               className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
                               Sign out
-                            </button>) : (<Link
+                            </button>
+                          ) : (
+                            <Link
                               href="/signin"
                               className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
                               Sign In
-                            </Link >)
+                            </Link >
+                          )
                         }
                       </div>
                     </div>
@@ -460,6 +492,6 @@ export default function Header({ session }: { session: any }) {
           </div>
         </nav>
       </header>
-    </div>
+    </div >
   )
 }

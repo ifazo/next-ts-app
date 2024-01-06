@@ -1,14 +1,11 @@
 import { db } from "@/db";
 import { ObjectId } from "mongodb";
 
-export async function GET({ params }: { params: { id: string } }) {
+export async function GET(request: Request) {
   try {
-    console.log(params.id)
-    if (!params || !params.id) {
-      return new Response("Invalid request", { status: 400 });
-    }
+    const id = request.url.split("/").pop();
     const user = await db.userCollection.findOne({
-      _id: new ObjectId(params.id),
+      _id: new ObjectId(id),
     });
     if (!user) {
       return new Response("Not found", { status: 404 });
@@ -22,15 +19,12 @@ export async function GET({ params }: { params: { id: string } }) {
 }
 
 export async function PATCH(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: Request
 ) {
   try {
-    if (!params || !params.id) {
-      return new Response("Invalid request", { status: 400 });
-    }
+    const id = request.url.split("/").pop();
     const user = await db.userCollection.findOneAndUpdate(
-      { _id: new ObjectId(params.id) },
+      { _id: new ObjectId(id) },
       { $set: await request.json() },
       { returnDocument: "after" }
     );
@@ -42,13 +36,11 @@ export async function PATCH(
   }
 }
 
-export async function DELETE({ params }: { params: { id: string } }) {
+export async function DELETE(request: Request) {
   try {
-    if (!params || !params.id) {
-      return new Response("Invalid request", { status: 400 });
-    }
+    const id = request.url.split("/").pop();
     const user = await db.userCollection.findOneAndDelete({
-      _id: new ObjectId(params.id),
+      _id: new ObjectId(id),
     });
     return new Response(JSON.stringify(user), {
       headers: { "content-type": "application/json" },

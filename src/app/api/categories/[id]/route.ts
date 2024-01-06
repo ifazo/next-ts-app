@@ -1,13 +1,11 @@
 import { db } from "@/db";
 import { ObjectId } from "mongodb";
 
-export async function GET({ params }: { params: { id: string } }) {
+export async function GET(request: Request) {
   try {
-    if (!params || !params.id) {
-      return new Response("Invalid request", { status: 400 });
-    }
+    const id = request.url.split("/").pop();
     const category = await db.categoryCollection.findOne({
-      _id: new ObjectId(params.id),
+      _id: new ObjectId(id),
     });
     if (!category) {
       return new Response("Not found", { status: 404 });
@@ -21,15 +19,12 @@ export async function GET({ params }: { params: { id: string } }) {
 }
 
 export async function PATCH(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: Request
 ) {
   try {
-    if (!params || !params.id) {
-      return new Response("Invalid request", { status: 400 });
-    }
+    const id = request.url.split("/").pop();
     const category = await db.categoryCollection.findOneAndUpdate(
-      { _id: new ObjectId(params.id) },
+      { _id: new ObjectId(id) },
       { $set: await request.json() },
       { returnDocument: "after" }
     );
@@ -41,13 +36,11 @@ export async function PATCH(
   }
 }
 
-export async function DELETE({ params }: { params: { id: string } }) {
+export async function DELETE(request: Request) {
   try {
-    if (!params || !params.id) {
-      return new Response("Invalid request", { status: 400 });
-    }
+    const id = request.url.split("/").pop();
     const category = await db.categoryCollection.findOneAndDelete({
-      _id: new ObjectId(params.id),
+      _id: new ObjectId(id),
     });
     return new Response(JSON.stringify(category), {
       headers: { "content-type": "application/json" },
