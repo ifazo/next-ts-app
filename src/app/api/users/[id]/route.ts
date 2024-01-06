@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 
 export async function GET({ params }: { params: { id: string } }) {
   try {
+    console.log(params.id)
     if (!params || !params.id) {
       return new Response("Invalid request", { status: 400 });
     }

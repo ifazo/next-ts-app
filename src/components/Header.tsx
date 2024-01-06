@@ -2,7 +2,9 @@
 import { Fragment, useState } from 'react'
 import Image from 'next/image'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
-import { MenuIcon, SearchIcon, ShoppingCartIcon, UserIcon, XIcon } from '@heroicons/react/outline'
+import { Bars2Icon, BellIcon, ShoppingCartIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import Link from 'next/link'
+import { signOut } from 'next-auth/react'
 
 const navigation = {
   categories: [
@@ -64,8 +66,9 @@ const navigation = {
     },
   ],
   pages: [
-    { name: 'Company', href: '#' },
-    { name: 'Stores', href: '#' },
+    { name: 'Product', href: '/products' },
+    { name: 'Service', href: '/services' },
+    { name: 'Blog', href: '/blogs' },
   ],
 }
 
@@ -110,7 +113,7 @@ export default function Header({ session }: { session: any }) {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <span className="sr-only">Close menu</span>
-                  <XIcon className="h-6 w-6" aria-hidden="true" />
+                  <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                 </button>
               </div>
 
@@ -149,9 +152,9 @@ export default function Header({ session }: { session: any }) {
                             >
                               {category.featured.map((item) => (
                                 <li key={item.name} className="flex">
-                                  <a href={item.href} className="text-gray-500">
+                                  <Link href={item.href} className="text-gray-500">
                                     {item.name}
-                                  </a>
+                                  </Link>
                                 </li>
                               ))}
                             </ul>
@@ -163,9 +166,9 @@ export default function Header({ session }: { session: any }) {
                             <ul role="list" aria-labelledby="mobile-categories-heading" className="mt-6 space-y-6">
                               {category.categories.map((item) => (
                                 <li key={item.name} className="flex">
-                                  <a href={item.href} className="text-gray-500">
+                                  <Link href={item.href} className="text-gray-500">
                                     {item.name}
-                                  </a>
+                                  </Link>
                                 </li>
                               ))}
                             </ul>
@@ -179,9 +182,9 @@ export default function Header({ session }: { session: any }) {
                             <ul role="list" aria-labelledby="mobile-collection-heading" className="mt-6 space-y-6">
                               {category.collection.map((item) => (
                                 <li key={item.name} className="flex">
-                                  <a href={item.href} className="text-gray-500">
+                                  <Link href={item.href} className="text-gray-500">
                                     {item.name}
-                                  </a>
+                                  </Link>
                                 </li>
                               ))}
                             </ul>
@@ -194,9 +197,9 @@ export default function Header({ session }: { session: any }) {
                             <ul role="list" aria-labelledby="mobile-brand-heading" className="mt-6 space-y-6">
                               {category.brands.map((item) => (
                                 <li key={item.name} className="flex">
-                                  <a href={item.href} className="text-gray-500">
+                                  <Link href={item.href} className="text-gray-500">
                                     {item.name}
-                                  </a>
+                                  </Link>
                                 </li>
                               ))}
                             </ul>
@@ -211,9 +214,9 @@ export default function Header({ session }: { session: any }) {
               <div className="border-t border-gray-200 py-6 px-4 space-y-6">
                 {navigation.pages.map((page) => (
                   <div key={page.name} className="flow-root">
-                    <a href={page.href} className="-m-2 p-2 block font-medium text-gray-900">
+                    <Link href={page.href} className="-m-2 p-2 block font-medium text-gray-900">
                       {page.name}
-                    </a>
+                    </Link>
                   </div>
                 ))}
               </div>
@@ -223,27 +226,27 @@ export default function Header({ session }: { session: any }) {
       </Transition.Root>
       <header className="relative z-10">
         <nav aria-label="Top">
-          {/* Secondary navigation */}
+          {/* Navigation */}
           <div className="bg-white">
             <div className="border-b border-gray-200">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="h-16 flex items-center justify-between">
                   {/* Logo (lg+) */}
                   <div className="hidden lg:flex lg:items-center">
-                    <a href="#">
-                      <span className="sr-only">Workflow</span>
+                    <Link href="/">
+                      <span className="sr-only">Logo</span>
                       <Image
                         height={32}
                         width={32}
                         className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
-                        alt=""
+                        src="tailwind.svg"
+                        alt="logo"
                       />
-                    </a>
+                    </Link>
                   </div>
 
                   <div className="hidden h-full lg:flex">
-                    {/* Mega menus */}
+                    {/* Nav menus */}
                     <Popover.Group className="ml-8">
                       <div className="h-full flex justify-center space-x-8">
                         {navigation.categories.map((category, categoryIdx) => (
@@ -294,9 +297,9 @@ export default function Header({ session }: { session: any }) {
                                               >
                                                 {category.featured.map((item) => (
                                                   <li key={item.name} className="flex">
-                                                    <a href={item.href} className="hover:text-gray-800">
+                                                    <Link href={item.href} className="hover:text-gray-800">
                                                       {item.name}
-                                                    </a>
+                                                    </Link>
                                                   </li>
                                                 ))}
                                               </ul>
@@ -312,9 +315,9 @@ export default function Header({ session }: { session: any }) {
                                               >
                                                 {category.categories.map((item) => (
                                                   <li key={item.name} className="flex">
-                                                    <a href={item.href} className="hover:text-gray-800">
+                                                    <Link href={item.href} className="hover:text-gray-800">
                                                       {item.name}
-                                                    </a>
+                                                    </Link>
                                                   </li>
                                                 ))}
                                               </ul>
@@ -332,9 +335,9 @@ export default function Header({ session }: { session: any }) {
                                               >
                                                 {category.collection.map((item) => (
                                                   <li key={item.name} className="flex">
-                                                    <a href={item.href} className="hover:text-gray-800">
+                                                    <Link href={item.href} className="hover:text-gray-800">
                                                       {item.name}
-                                                    </a>
+                                                    </Link>
                                                   </li>
                                                 ))}
                                               </ul>
@@ -351,9 +354,9 @@ export default function Header({ session }: { session: any }) {
                                               >
                                                 {category.brands.map((item) => (
                                                   <li key={item.name} className="flex">
-                                                    <a href={item.href} className="hover:text-gray-800">
+                                                    <Link href={item.href} className="hover:text-gray-800">
                                                       {item.name}
-                                                    </a>
+                                                    </Link>
                                                   </li>
                                                 ))}
                                               </ul>
@@ -370,13 +373,13 @@ export default function Header({ session }: { session: any }) {
                         ))}
 
                         {navigation.pages.map((page) => (
-                          <a
+                          <Link
                             key={page.name}
                             href={page.href}
                             className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
                           >
                             {page.name}
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     </Popover.Group>
@@ -390,57 +393,64 @@ export default function Header({ session }: { session: any }) {
                       onClick={() => setMobileMenuOpen(true)}
                     >
                       <span className="sr-only">Open menu</span>
-                      <MenuIcon className="h-6 w-6" aria-hidden="true" />
+                      <Bars2Icon className="h-6 w-6" aria-hidden="true" />
                     </button>
 
                     {/* Search */}
-                    <a href="#" className="ml-2 p-2 text-gray-400 hover:text-gray-500">
+                    <Link href="#" className="ml-2 p-2 text-gray-400 hover:text-gray-500">
                       <span className="sr-only">Search</span>
-                      <SearchIcon className="w-6 h-6" aria-hidden="true" />
-                    </a>
+                      <BellIcon className="w-6 h-6" aria-hidden="true" />
+                    </Link>
                   </div>
 
                   {/* Logo (lg-) */}
-                  <a href="#" className="lg:hidden">
-                    <span className="sr-only">Workflow</span>
+                  <Link href="/" className="lg:hidden">
+                    <span className="sr-only">Logo</span>
                     <Image
                       height={32}
                       width={32}
-                      src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
-                      alt=""
+                      src="tailwind.svg"
+                      alt="logo"
                       className="h-8 w-auto"
                     />
-                  </a>
+                  </Link>
 
                   <div className="flex-1 flex items-center justify-end">
                     <div className="flex items-center lg:ml-8">
                       <div className="flex space-x-8">
                         <div className="hidden lg:flex">
-                          <a href="#" className="-m-2 p-2 text-gray-400 hover:text-gray-500">
+                          <Link href="#" className="-m-2 p-2 text-gray-400 hover:text-gray-500">
                             <span className="sr-only">Search</span>
-                            <SearchIcon className="w-6 h-6" aria-hidden="true" />
-                          </a>
+                            <BellIcon className="w-6 h-6" aria-hidden="true" />
+                          </Link>
                         </div>
 
                         <div className="flex">
-                          <a href="#" className="-m-2 p-2 text-gray-400 hover:text-gray-500">
+                          <Link href="#" className="-m-2 p-2 text-gray-400 hover:text-gray-500">
                             <span className="sr-only">Account</span>
-                            <UserIcon className="w-6 h-6" aria-hidden="true" />
-                          </a>
+                            <ShoppingCartIcon className="w-6 h-6" aria-hidden="true" />
+                          </Link>
                         </div>
                       </div>
 
                       <span className="mx-4 h-6 w-px bg-gray-200 lg:mx-6" aria-hidden="true" />
 
                       <div className="flow-root">
-                        <a href="#" className="group -m-2 p-2 flex items-center">
-                          <ShoppingCartIcon
-                            className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
-                            aria-hidden="true"
-                          />
-                          <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
-                          <span className="sr-only">items in cart, view bag</span>
-                        </a>
+                        {
+                          session ? (
+                            <button
+                              onClick={() => signOut()}
+                              type="button"
+                              className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            >
+                              Sign out
+                            </button>) : (<Link
+                              href="/signin"
+                              className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            >
+                              Sign In
+                            </Link >)
+                        }
                       </div>
                     </div>
                   </div>

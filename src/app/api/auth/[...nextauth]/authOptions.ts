@@ -1,41 +1,49 @@
+import clientPromise from "@/lib/mongodb";
+import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: AuthOptions = {
+  // adapter: MongoDBAdapter(clientPromise) as any, //! this give error in login
   providers: [
-    CredentialsProvider({
-      id: "credentials",
-      name: "Credentials",
-      type: "credentials",
-      credentials: {
-        username: { label: "Email", type: "email", placeholder: "Your E-mail" },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials) {
-        try {
-          const res = await fetch(`${process.env.NEXTAUTH_URL}/api/auth`, {
-            method: "POST",
-            body: JSON.stringify(credentials),
-            headers: { "Content-Type": "application/json" },
-          });
-          const data = await res.json();
-          return data;
-        } catch (err) {
-          return null;
-        }
-      },
-    }),
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: process.env.GOOGLE_ID as string,
+      clientSecret: process.env.GOOGLE_SECRET as string,
+    }),
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        username: { label: "Name", type: "text", placeholder: "Name" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials, req) {
+        const res = await fetch("/api/users", {
+          method: "POST",
+          body: JSON.stringify(credentials),
+          headers: { "Content-Type": "application/json" },
+        });
+        const user = await res.json();
+
+        if (res.ok && user) {
+          return user;
+        }
+        return null;
+      },
     }),
   ],
+  pages: {
+    signIn: "/signin",
+    signOut: "/",
+    error: "/auth/error",
+    // verifyRequest: "/auth/verify-request",
+    // newUser: "/auth/new-user",
+  },
   callbacks: {
     async jwt({ token, user }) {
       return {
