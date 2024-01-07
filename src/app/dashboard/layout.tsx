@@ -4,7 +4,7 @@ import { Dialog, Menu, Transition } from '@headlessui/react'
 import Image from 'next/image'
 import { Bars2Icon, ChatBubbleLeftRightIcon, CalendarIcon, ChartBarIcon, FolderIcon, HomeIcon, InboxIcon, MagnifyingGlassIcon, UserIcon, UsersIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
-const userNavigation = [
+const navigation = [
     { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
     { name: 'Team', href: '#', icon: UsersIcon, current: false },
     { name: 'Projects', href: '#', icon: FolderIcon, current: false },
@@ -12,21 +12,21 @@ const userNavigation = [
     { name: 'Documents', href: '#', icon: InboxIcon, current: false },
     { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
 ]
-const buyerNavigation = [
+const userNavigation = [
     { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
     { name: 'Wishlist', href: '#', icon: UsersIcon, current: false },
     { name: 'Card', href: '#', icon: FolderIcon, current: false },
     { name: 'Orders', href: '#', icon: CalendarIcon, current: false },
     { name: 'Reports', href: '#', icon: InboxIcon, current: false },
 ]
-const sellerNavigation = [
+const adminNavigation = [
     { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
     { name: 'Products', href: '#', icon: UsersIcon, current: false },
     { name: 'Orders', href: '#', icon: FolderIcon, current: false },
     { name: 'Message', href: '#', icon: InboxIcon, current: false },
     { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
 ]
-const adminNavigation = [
+const superAdminNavigation = [
     { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
     { name: 'Blogs', href: '#', icon: UsersIcon, current: false },
     { name: 'Buyer', href: '#', icon: FolderIcon, current: false },
@@ -43,12 +43,12 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function DashboardLayout({ children, admin, buyer, seller }: { children: ReactNode, admin: ReactNode, buyer: ReactNode, seller: ReactNode }) {
+export default function DashboardLayout({ children, admin, user, super_admin }: { children: ReactNode, admin: ReactNode, user: ReactNode, super_admin: ReactNode }) {
     const [ sidebarOpen, setSidebarOpen ] = useState(false)
     let role = null
     let navigation = userNavigation
-    if (role === 'admin' || 'buyer' || 'seller') {
-        navigation = role === 'admin' ? adminNavigation : role === 'buyer' ? buyerNavigation : role === 'seller' ? sellerNavigation : userNavigation
+    if (role === 'admin' || 'user' || 'super_admin') {
+        navigation = role === 'admin' ? adminNavigation : role === 'user' ? userNavigation : role === 'super_admin' ? superAdminNavigation : userNavigation
     }
 
     return (
@@ -274,8 +274,8 @@ export default function DashboardLayout({ children, admin, buyer, seller }: { ch
                                 <div className="min-h-screen">
                                     {!role && children}
                                     {role === 'admin' && admin}
-                                    {role === 'buyer' && buyer}
-                                    {role === 'seller' && seller}
+                                    {role === 'user' && user}
+                                    {role === 'super_admin' && super_admin}
                                 </div>
                                 {/* /End replace */}
                             </div>

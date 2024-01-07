@@ -7,6 +7,7 @@ import { authOptions } from './api/auth/[...nextauth]/authOptions'
 import { Toaster } from "react-hot-toast";
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
+import { ReactNode } from 'react'
 
 const inter = Inter({ subsets: [ 'latin' ] })
 
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: ReactNode
 }) {
   const session = await getServerSession(authOptions);
   return (

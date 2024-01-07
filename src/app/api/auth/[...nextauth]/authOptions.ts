@@ -1,3 +1,4 @@
+import { db } from "@/db";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -5,7 +6,7 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: AuthOptions = {
-  // adapter: MongoDBAdapter(clientPromise) as any, //! this give error in login
+  adapter: MongoDBAdapter(db.clientPromise) as any, //! this give error in login
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,

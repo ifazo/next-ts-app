@@ -21,24 +21,24 @@ export default function SignUp() {
   } = useForm<Inputs>()
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    // console.log(data)
-    fetch("/api/users", {
+    fetch(`${process.env.NEXTAUTH_URL}/api/signup`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
       },
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data)
-        toast.success("User created successfully");
-        router.push("/signin");
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.acknowledged) {
+          toast.success("User created successfully");
+          // router.push("/signin");
+        }
+        else {
+          toast.error("Failed to create user");
+          // router.push("/");
+        }
       })
-      .catch((error) => {
-        console.error(error);
-        router.push("/");
-      });
   }
 
   return (
