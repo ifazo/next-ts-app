@@ -51,7 +51,7 @@ export default function Footer() {
                             <Image
                                 height={32}
                                 width={32}
-                                src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
+                                src="tailwind.svg"
                                 alt=""
                                 className="h-8 w-auto"
                             />

@@ -2,14 +2,14 @@
 import { Fragment, useState } from 'react'
 import Image from 'next/image'
 import { Dialog, Menu, Popover, Tab, Transition } from '@headlessui/react'
-import { Bars2Icon, BellIcon, ShoppingCartIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars2Icon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { signOut } from 'next-auth/react'
 
 const navigation = {
   categories: [
     {
-      name: 'Women',
+      name: 'Service',
       featured: [
         { name: 'Sleep', href: '#' },
         { name: 'Swimwear', href: '#' },
@@ -17,9 +17,9 @@ const navigation = {
       ],
       collection: [
         { name: 'Everything', href: '#' },
-        { name: 'Core', href: '#' },
+        { name: 'Popular', href: '#' },
         { name: 'New Arrivals', href: '#' },
-        { name: 'Sale', href: '#' },
+        { name: 'On Sale', href: '#' },
       ],
       categories: [
         { name: 'Basic Tees', href: '#' },
@@ -37,7 +37,7 @@ const navigation = {
       ],
     },
     {
-      name: 'Men',
+      name: 'Product',
       featured: [
         { name: 'Casual', href: '#' },
         { name: 'Boxers', href: '#' },
@@ -45,9 +45,9 @@ const navigation = {
       ],
       collection: [
         { name: 'Everything', href: '#' },
-        { name: 'Core', href: '#' },
+        { name: 'Popular', href: '#' },
         { name: 'New Arrivals', href: '#' },
-        { name: 'Sale', href: '#' },
+        { name: 'On Sale', href: '#' },
       ],
       categories: [
         { name: 'Artwork Tees', href: '#' },
@@ -66,8 +66,8 @@ const navigation = {
     },
   ],
   pages: [
-    { name: 'Product', href: '/products' },
     { name: 'Service', href: '/services' },
+    { name: 'Product', href: '/products' },
     { name: 'Blog', href: '/blogs' },
   ],
 }

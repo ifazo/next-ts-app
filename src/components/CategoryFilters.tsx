@@ -1,7 +1,7 @@
 'use client'
 import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
-import { XMarkIcon } from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 import ProductList from './ProductList'
 
@@ -168,9 +168,29 @@ export default function CategoryFilters() {
                 </Transition.Root>
 
                 <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-                        <h1 className="text-4xl font-bold tracking-tight text-gray-900">New Arrivals</h1>
+                    <div className="flex items-baseline justify-center border-b border-gray-200 pb-6 pt-24">
+                        <h1 className="text-4xl font-bold tracking-tight text-gray-900">Services</h1>
 
+                        <div className="flex-1 flex">
+                            <form className="w-full flex lg:mx-56 mx-8" action="#" method="GET">
+                                <label htmlFor="search-field" className="sr-only">
+                                    Search
+                                </label>
+                                <div className="relative w-full text-gray-400 focus-within:text-gray-600">
+                                    <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none">
+                                        <MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />
+                                    </div>
+                                    <input
+                                        id="search-field"
+                                        className="block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent sm:text-sm"
+                                        placeholder="Search"
+                                        type="search"
+                                        name="search"
+                                    />
+                                </div>
+                            </form>
+                        </div>
+                        
                         <div className="flex items-center">
                             <Menu as="div" className="relative inline-block text-left">
                                 <div>
@@ -215,10 +235,6 @@ export default function CategoryFilters() {
                                 </Transition>
                             </Menu>
 
-                            <button type="button" className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7">
-                                <span className="sr-only">View grid</span>
-                                <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
-                            </button>
                             <button
                                 type="button"
                                 className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
@@ -228,6 +244,7 @@ export default function CategoryFilters() {
                                 <FunnelIcon className="h-5 w-5" aria-hidden="true" />
                             </button>
                         </div>
+
                     </div>
 
                     <section aria-labelledby="products-heading" className="pb-24 pt-6">
