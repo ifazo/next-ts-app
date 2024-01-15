@@ -61,9 +61,9 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function CategoryFilters() {
+export default function CategoryFilters({products}: {products: any}) {
+    // console.log(products)
     const [ mobileFiltersOpen, setMobileFiltersOpen ] = useState(false)
-
     return (
         <div className="bg-white">
             <div>
@@ -310,7 +310,7 @@ export default function CategoryFilters() {
 
                             {/* Product grid */}
                             <div className="lg:col-span-3">
-                                <ProductList />
+                                <ProductList products={products} />
                             </div>
                         </div>
                     </section>
