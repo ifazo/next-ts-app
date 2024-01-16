@@ -1,12 +1,9 @@
-import CategoryFilters from '@/components/CategoryFilters'
-import { getProducts } from '@/lib/api'
+import CategoryFilters from "@/components/CategoryFilters";
 
-export default async function page() {
-    const products = await getProducts()
-    // console.log(products)
-    return (
-        <div>
-            <CategoryFilters products={products} />
-        </div>
-    )
+export default function page() {
+  return (
+    <div>
+      <CategoryFilters />
+    </div>
+  );
 }
