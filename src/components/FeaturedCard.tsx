@@ -10,7 +10,8 @@ export default function FeaturedCard() {
                 <div className="relative rounded-lg overflow-hidden">
                     <div className="absolute inset-0">
                         <Image
-                            layout="fill"
+                            height={500}
+                            width={500}
                             src="https://tailwindui.com/img/ecommerce-images/home-page-01-feature-section-01.jpg"
                             alt="featured image"
                             className="w-full h-full object-center object-cover"

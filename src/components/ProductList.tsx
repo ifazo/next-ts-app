@@ -11,7 +11,9 @@ function classNames(...classes: string[]) {
 }
 
 export default function ProductList() {
-  const { data } = useGetProductsQuery({});
+  const { data, isError, isLoading } = useGetProductsQuery({});
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error</div>;
   const { products } = data as { products: Product[] };
   console.log(products);
   return (
@@ -27,7 +29,8 @@ export default function ProductList() {
             >
               <div className="rounded-lg overflow-hidden bg-gray-200 aspect-w-1 aspect-h-1 group-hover:opacity-75">
                 <Image
-                  layout="fill"
+                  width={300}
+                  height={300}
                   src={product.thumbnail}
                   alt={product.title}
                   className="w-full h-full object-center object-cover"

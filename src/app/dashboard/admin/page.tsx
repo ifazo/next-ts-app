@@ -1,6 +1,7 @@
 
+
 export default function page() {
   return (
-    <div>admin page</div>
+    <div>page</div>
   )
 }

@@ -7,7 +7,8 @@ export default function WorkspaceCard() {
                 <div className="relative rounded-lg overflow-hidden lg:h-96">
                     <div className="absolute inset-0">
                         <Image
-                            layout="fill"
+                            height={500}
+                            width={500}
                             src="https://tailwindui.com/img/ecommerce-images/category-page-01-featured-collection.jpg"
                             alt="workspace collection"
                             className="w-full h-full object-center object-cover"

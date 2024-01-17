@@ -49,7 +49,8 @@ export default function CategoryList() {
                                     >
                                         <span aria-hidden="true" className="absolute inset-0">
                                             <Image
-                                                layout="fill"
+                                                height={320}
+                                                width={320}
                                                 src={category.image}
                                                 alt="category image"
                                                 className="w-full h-full object-center object-cover"

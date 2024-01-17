@@ -22,6 +22,7 @@ export const authOptions: AuthOptions = {
         name: { label: "Name", type: "text", placeholder: "Name" },
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
+        role: {label: "Role", type: "text" }
       },
       async authorize(credentials) {
         const res = await fetch(`${process.env.NEXTAUTH_URL}/api/signin`, {

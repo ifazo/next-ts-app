@@ -14,7 +14,8 @@ export default function CategoryPreview() {
                 <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8">
                     <div className="group aspect-w-2 aspect-h-1 rounded-lg overflow-hidden sm:aspect-h-1 sm:aspect-w-1 sm:row-span-2">
                         <Image
-                            layout="fill"
+                            height={320}
+                            width={320}
                             src="https://tailwindui.com/img/ecommerce-images/home-page-03-featured-category.jpg"
                             alt="Two models wearing women's black cotton crewneck tee and off-white cotton crewneck tee."
                             className="object-center object-cover group-hover:opacity-75"
@@ -36,7 +37,8 @@ export default function CategoryPreview() {
                     </div>
                     <div className="group aspect-w-2 aspect-h-1 rounded-lg overflow-hidden sm:relative sm:aspect-none sm:h-full">
                         <Image
-                            layout="fill"
+                            height={320}
+                            width={320}
                             src="https://tailwindui.com/img/ecommerce-images/home-page-03-category-01.jpg"
                             alt="Wooden shelf with gray and olive drab green baseball caps, next to wooden clothes hanger with sweaters."
                             className="object-center object-cover group-hover:opacity-75 sm:absolute sm:inset-0 sm:w-full sm:h-full"
@@ -61,7 +63,8 @@ export default function CategoryPreview() {
                     </div>
                     <div className="group aspect-w-2 aspect-h-1 rounded-lg overflow-hidden sm:relative sm:aspect-none sm:h-full">
                         <Image
-                            layout="fill"
+                            height={500}
+                            width={500}
                             src="https://tailwindui.com/img/ecommerce-images/home-page-03-category-02.jpg"
                             alt="Walnut desk organizer set with white modular trays, next to porcelain mug on wooden desk."
                             className="object-center object-cover group-hover:opacity-75 sm:absolute sm:inset-0 sm:w-full sm:h-full"

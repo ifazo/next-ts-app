@@ -8,7 +8,8 @@ export default function Hero() {
                 {/* Decorative image and overlay */}
                 <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
                     <Image
-                        layout="fill"
+                        height={500}
+                        width={500}
                         src="https://tailwindui.com/img/ecommerce-images/home-page-01-hero-full-width.jpg"
                         alt="hero image"
                         className="w-full h-full object-center object-cover"
