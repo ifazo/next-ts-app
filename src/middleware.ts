@@ -2,22 +2,13 @@ import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const buyerRoutes = [
+const userRoutes = [
   "/service",
   "/dashboard",
-  "/dashboard/buyer",
-  "/dashboard/buyer/:page*",
-  "/dashboard/buyer/booking",
-  "/dashboard/buyer/wishlist",
-];
-
-const sellerRoutes = [
-  "/service",
-  "/dashboard",
-  "/dashboard/seller",
-  "/dashboard/seller/:page*",
-  "/dashboard/seller/admins",
-  "/dashboard/seller/categories",
+  "/dashboard/user",
+  "/dashboard/user/:page*",
+  "/dashboard/user/booking",
+  "/dashboard/user/wishlist",
 ];
 
 const adminRoutes = [
@@ -29,6 +20,15 @@ const adminRoutes = [
   "/dashboard/admin/services",
 ];
 
+const superAdminRoutes = [
+  "/service",
+  "/dashboard",
+  "/dashboard/super_admin",
+  "/dashboard/super_admin/:page*",
+  "/dashboard/super_admin/admins",
+  "/dashboard/super_admin/categories",
+];
+
 export async function middleware(request: NextRequest) {
   const token = await getToken({
     req: request,
@@ -36,18 +36,18 @@ export async function middleware(request: NextRequest) {
   if (!token) {
     return NextResponse.redirect(new URL("/signin", request.url));
   } else if (
+    token?.role === "user" &&
+    userRoutes.includes(request.nextUrl.pathname)
+  ) {
+    return NextResponse.next();
+  } else if (
     token?.role === "admin" &&
     adminRoutes.includes(request.nextUrl.pathname)
   ) {
     return NextResponse.next();
   } else if (
-    token?.role === "seller" &&
-    sellerRoutes.includes(request.nextUrl.pathname)
-  ) {
-    return NextResponse.next();
-  } else if (
-    token?.role === "buyer" &&
-    buyerRoutes.includes(request.nextUrl.pathname)
+    token?.role === "super_admin" &&
+    superAdminRoutes.includes(request.nextUrl.pathname)
   ) {
     return NextResponse.next();
   } else {
@@ -59,11 +59,11 @@ export const config = {
   matcher: [
     "/service",
     "/dashboard",
-    "/dashboard/buyer",
-    "/dashboard/buyer/:page*",
-    "/dashboard/seller",
-    "/dashboard/seller/:page*",
+    "/dashboard/user",
+    "/dashboard/user/:page*",
     "/dashboard/admin",
     "/dashboard/admin/:page*",
+    "/dashboard/super_admin",
+    "/dashboard/super_admin/:page*",
   ],
 };

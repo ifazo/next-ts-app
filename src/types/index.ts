@@ -20,3 +20,5 @@ export interface Category {
   createdAt: string;
   updatedAt: string;
 }
+
+export type Role = "user" | "admin" | "super_admin";
