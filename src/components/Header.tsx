@@ -66,7 +66,6 @@ const navigation = {
     },
   ],
   pages: [
-    { name: 'Service', href: '/services' },
     { name: 'Product', href: '/products' },
     { name: 'Blog', href: '/blogs' },
   ],
@@ -245,7 +244,7 @@ export default function Header({ session }: { session: any }) {
                         height={32}
                         width={32}
                         className="h-8 w-auto"
-                        src="tailwind.svg"
+                        src="next.svg"
                         alt="logo"
                       />
                     </Link>
@@ -409,7 +408,7 @@ export default function Header({ session }: { session: any }) {
                     <Image
                       height={32}
                       width={32}
-                      src="tailwind.svg"
+                      src="next.svg"
                       alt="logo"
                       className="h-8 w-auto"
                     />

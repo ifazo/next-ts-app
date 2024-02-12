@@ -1,8 +1,10 @@
 import { db } from "@/db";
 import { ObjectId } from "mongodb";
-export async function GET(request: Request) {
+
+export async function GET(request: Request, {params}: {params: {id: string}}) {
   try {
-    const id = request.url.split("/").pop();
+    const id = params.id;
+    console.log(id)
     const product = await db.productCollection.findOne({
       _id: new ObjectId(id),
     });

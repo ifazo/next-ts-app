@@ -57,7 +57,7 @@ export default function SignUp() {
             height={40}
             width={40}
             className="mx-auto h-10 w-auto"
-            src="tailwind.svg"
+            src="next.svg"
             alt="logo"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">

@@ -51,7 +51,7 @@ export default function Footer() {
               <Image
                 height={32}
                 width={32}
-                src="tailwind.svg"
+                src="next.svg"
                 alt=""
                 className="h-8 w-auto"
               />

@@ -1,8 +1,9 @@
+import { IProduct } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const api = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: "https://dummyjson.com" }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.API_URL }),
   tagTypes: ["Product", "User", "Category", "Blog"],
   endpoints: (builder: any) => ({
     getUsers: builder.query({
@@ -29,7 +30,7 @@ export const api = createApi({
       invalidatesTags: ["User"],
     }),
     deleteUser: builder.mutation({
-      query: (id: any) => ({
+      query: (id: string) => ({
         url: `/users/${id}`,
         method: "DELETE",
       }),
@@ -40,10 +41,10 @@ export const api = createApi({
       providesTags: ["Product"],
     }),
     getProduct: builder.query({
-      query: (id: any) => `/products/${id}`,
+      query: (id: string) => `/products/${id}`,
     }),
     createProduct: builder.mutation({
-      query: (body: any) => ({
+      query: (body: IProduct) => ({
         url: "/products",
         method: "POST",
         body,
@@ -51,7 +52,7 @@ export const api = createApi({
       invalidatesTags: ["Product"],
     }),
     updateProduct: builder.mutation({
-      query: ({ id, ...body }: { id: string; body: any }) => ({
+      query: ({ id, ...body }: { id: string; body: IProduct }) => ({
         url: `/products/${id}`,
         method: "PATCH",
         body,
@@ -59,7 +60,7 @@ export const api = createApi({
       invalidatesTags: ["Product"],
     }),
     deleteProduct: builder.mutation({
-      query: (id: any) => ({
+      query: (id: string) => ({
         url: `/products/${id}`,
         method: "DELETE",
       }),

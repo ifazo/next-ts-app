@@ -1,12 +1,14 @@
-export interface Product {
-  id: string;
+import { ObjectId } from "mongodb";
+
+export interface IProduct {
+  _id: string;
   title: string;
   description: string;
   price: number;
   discountPercentage: number;
   rating: number;
   stock: number;
-  band: string;
+  brand: string;
   category: string;
   thumbnail: string;
   images: string[];
@@ -14,7 +16,7 @@ export interface Product {
   updatedAt: string;
 }
 
-export interface Category {
+export interface ICategory {
   id: string;
   name: string;
   createdAt: string;

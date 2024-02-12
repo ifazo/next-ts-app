@@ -10,7 +10,7 @@ const client = new MongoClient(uri, {
 });
 
 const clientPromise = client.connect();
-const database = client.db("next_ts");
+const database = client.db("dummyjson_db");
 const userCollection = database.collection("users");
 const productCollection = database.collection("products");
 const categoryCollection = database.collection("categories");
