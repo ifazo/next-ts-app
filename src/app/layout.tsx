@@ -2,8 +2,6 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Providers } from "./providers";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/authOptions";
 import { Toaster } from "react-hot-toast";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -21,12 +19,12 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
+  
   return (
     <Providers>
       <html lang="en">
         <body className={inter.className}>
-          <Header session={session} />
+          <Header />
           {children}
           <Toaster />
           <Footer />

@@ -1,69 +1,36 @@
-import { getToken } from "next-auth/jwt";
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import NextAuth from "next-auth";
+import authConfig from "./auth.config";
+import { apiAuthPrefix, authRoutes, publicRoutes } from "./routes";
 
-const userRoutes = [
-  "/service",
-  "/dashboard",
-  "/dashboard/user",
-  "/dashboard/user/:page*",
-  "/dashboard/user/booking",
-  "/dashboard/user/wishlist",
-];
+const { auth } = NextAuth(authConfig);
 
-const adminRoutes = [
-  "/service",
-  "/dashboard",
-  "/dashboard/admin",
-  "/dashboard/admin/:page*",
-  "/dashboard/admin/users",
-  "/dashboard/admin/services",
-];
+export default auth((req) => {
+  const { nextUrl } = req;
+  const isLoggedIn = !!req.auth;
 
-const superAdminRoutes = [
-  "/service",
-  "/dashboard",
-  "/dashboard/super_admin",
-  "/dashboard/super_admin/:page*",
-  "/dashboard/super_admin/admins",
-  "/dashboard/super_admin/categories",
-];
+  const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
+  const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-export async function middleware(request: NextRequest) {
-  const token = await getToken({
-    req: request,
-  });
-  if (!token) {
-    return NextResponse.redirect(new URL("/signin", request.url));
-  } else if (
-    token?.role === "user" &&
-    userRoutes.includes(request.nextUrl.pathname)
-  ) {
-    return NextResponse.next();
-  } else if (
-    token?.role === "admin" &&
-    adminRoutes.includes(request.nextUrl.pathname)
-  ) {
-    return NextResponse.next();
-  } else if (
-    token?.role === "super_admin" &&
-    superAdminRoutes.includes(request.nextUrl.pathname)
-  ) {
-    return NextResponse.next();
-  } else {
-    return NextResponse.redirect(new URL("/", request.url));
+  if (isApiAuthRoute) {
+    return null;
   }
-}
 
+  if (isAuthRoute) {
+    if (isLoggedIn) {
+      return Response.redirect(new URL("/", nextUrl));
+    }
+    return null;
+  }
+
+  if (!isLoggedIn && !isPublicRoute) {
+    return Response.redirect(new URL("/auth/signin", nextUrl));
+  }
+
+  return null;
+})
+
+// Optionally, don't invoke Middleware on some paths
 export const config = {
-  matcher: [
-    "/service",
-    "/dashboard",
-    "/dashboard/user",
-    "/dashboard/user/:page*",
-    "/dashboard/admin",
-    "/dashboard/admin/:page*",
-    "/dashboard/super_admin",
-    "/dashboard/super_admin/:page*",
-  ],
-};
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+}
