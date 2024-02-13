@@ -1,7 +1,16 @@
-import { ObjectId } from "mongodb";
+export type Role = "user" | "admin" | "super_admin";
+
+export interface IUser {
+  id: number;
+  email: string;
+  password: string;
+  role: Role;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export interface IProduct {
-  _id: string;
+  id: number;
   title: string;
   description: string;
   price: number;
@@ -17,10 +26,17 @@ export interface IProduct {
 }
 
 export interface ICategory {
-  id: string;
+  id: number;
   name: string;
   createdAt: string;
   updatedAt: string;
 }
 
-export type Role = "user" | "admin" | "super_admin";
+export interface IOrder {
+  id: number;
+  userId: string;
+  products: IProduct[];
+  total: number;
+  createdAt: string;
+  updatedAt: string;
+}
