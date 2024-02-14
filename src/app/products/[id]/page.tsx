@@ -1,11 +1,15 @@
+import { useGetProductQuery } from "@/store/features/api/apiSlice";
 import { IProduct } from "@/types";
 import Image from "next/image"
 
 export default async function Page({ params: { id } }: { params: { id: string } }) {
     
-    const res = await fetch(`${process.env.API_URL}/products/${id}`)
+    const res = await fetch(`${process.env.BASE_URL}/api/products/${id}`)
     const product = await res.json() as IProduct
-
+    // const { data: product, error } = useGetProductQuery(id) as { data: IProduct, error: any }
+    // if (error) return <div>Error loading product</div>
+    if (!product) return <div>No product found</div>
+    
     return (
         <div className="bg-white">
             <div className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 py-24 sm:px-6 sm:py-32 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
@@ -53,21 +57,21 @@ export default async function Page({ params: { id } }: { params: { id: string } 
                     <Image
                         width={500}
                         height={500}
-                        src={product.images[0]}
+                        src={product.thumbnail}
                         alt={product.title}
                         className="rounded-lg bg-gray-100"
                     />
                     <Image
                         width={500}
                         height={500}
-                        src={product.images[1]}
+                        src={product.thumbnail}
                         alt={product.title}
                         className="rounded-lg bg-gray-100"
                     />
                     <Image
                         width={500}
                         height={500}
-                        src={product.images[2]}
+                        src={product.thumbnail}
                         alt={product.title}
                         className="rounded-lg bg-gray-100"
                     />

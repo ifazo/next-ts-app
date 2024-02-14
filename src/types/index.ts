@@ -1,7 +1,7 @@
 export type Role = "user" | "admin" | "super_admin";
 
 export interface IUser {
-  id: number;
+  _id: string;
   email: string;
   password: string;
   role: Role;
@@ -10,7 +10,7 @@ export interface IUser {
 }
 
 export interface IProduct {
-  id: number;
+  _id: string;
   title: string;
   description: string;
   price: number;
@@ -26,14 +26,14 @@ export interface IProduct {
 }
 
 export interface ICategory {
-  id: number;
+  _id: string;
   name: string;
   createdAt: string;
   updatedAt: string;
 }
 
 export interface IOrder {
-  id: number;
+  _id: string;
   userId: string;
   products: IProduct[];
   total: number;
