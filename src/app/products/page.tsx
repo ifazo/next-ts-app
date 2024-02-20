@@ -3,9 +3,10 @@ import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
-import ProductList from '@/components/ProductList'
+import ProductList from '@/components/ProductCard'
 import { useGetProductsQuery } from '@/store/features/api/apiSlice'
 import { IProduct } from '@/types'
+import ProductCard from '@/components/ProductCard'
 
 const sortOptions = [
   { name: 'Most Popular', href: '#', current: true },
@@ -68,7 +69,6 @@ export default function Page() {
 
   const { data: products, error } = useGetProductsQuery({}) as { data: IProduct[], error: any }
   if (error) return console.log(error)
-  if (!products) return <div>Loading...</div>
 
   return (
     <div className="bg-white">
@@ -299,7 +299,14 @@ export default function Page() {
 
               {/* Product grid */}
               <div className="lg:col-span-3">
-                <ProductList products={products} />
+                <div className="bg-white">
+                  <div className="max-w-7xl mx-auto overflow-hidden sm:px-6 lg:px-8">
+                    <h2 className="sr-only">Products</h2>
+                    <div className="-mx-px border-l border-gray-200 grid grid-cols-2 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
+                      {products?.map((product) => <ProductCard key={product._id} product={product} />)}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </section>

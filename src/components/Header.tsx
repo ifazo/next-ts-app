@@ -7,6 +7,7 @@ import supabase, { signOut } from '../lib/supabase'
 import { Session, User } from '@supabase/supabase-js'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Switch } from "@/components/ui/switch"
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -127,7 +128,8 @@ export default function Header() {
                       className="flex-shrink-0 bg-white p-1 text-gray-400 rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
                       <span className="sr-only">View notifications</span>
-                      <BellIcon className="h-6 w-6" aria-hidden="true" />
+                      {/* <BellIcon className="h-6 w-6" aria-hidden="true" /> */}
+                      <Switch />
                     </button>
                     {/* Profile dropdown */}
                     <Menu as="div" className="ml-4 relative flex-shrink-0">
