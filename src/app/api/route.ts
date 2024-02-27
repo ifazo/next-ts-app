@@ -3,7 +3,7 @@ export async function GET(request: Request) {
     JSON.stringify({ message: "Hello World! from next.js server !!!" }),
     {
       headers: { "content-type": "application/json" },
-    }
+    },
   );
 }
 

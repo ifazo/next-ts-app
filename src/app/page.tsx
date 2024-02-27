@@ -6,7 +6,6 @@ import LogoClouds from "@/components/LogoClouds";
 import WorkspaceCard from "@/components/WoekspaceCard";
 
 export default function Home() {
-  
   return (
     <main>
       <Hero />
@@ -16,5 +15,5 @@ export default function Home() {
       <WorkspaceCard />
       <LogoClouds />
     </main>
-  )
+  );
 }

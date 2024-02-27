@@ -1,45 +1,29 @@
-import { db } from "@/db";
-import { type NextRequest } from 'next/server'
+import { createProduct, getProducts } from "@/data/product";
+import { type NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const search = searchParams.get('search');
-    const skip = searchParams.get('skip');
-    const limit = searchParams.get('limit');
-    const sort = searchParams.get('sort');
-    const category = searchParams.get('category');
+    const q = searchParams.get("q") || "";
+    const limit = parseInt(searchParams.get("limit") || "10");
+    const skip = parseInt(searchParams.get("skip") || "0");
+    const sort = searchParams.get("sort") || "asc";
+    const category = searchParams.get("category") || "";
+    const price = parseInt(searchParams.get("price") || "0");
+    const rating = parseInt(searchParams.get("rating") || "0");
 
-    if (category) {
-      const products = await db.productCollection.find({ category }).toArray();
-      return new Response(JSON.stringify(products), {
-        headers: { "content-type": "application/json" },
-      });
-    }
-    else if (sort) {
-      const products = await db.productCollection.find().sort({ [sort]: 1 }).toArray();
-      return new Response(JSON.stringify(products), {
-        headers: { "content-type": "application/json" },
-      });
-    }
-    else if (search) {
-      const products = await db.productCollection.find({ $text: { $search: search } }).toArray();
-      return new Response(JSON.stringify(products), {
-        headers: { "content-type": "application/json" },
-      });
-    }
-    else if (skip && limit) {
-      const products = await db.productCollection.find().skip(Number(skip)).limit(Number(limit)).toArray();
-      return new Response(JSON.stringify(products), {
-        headers: { "content-type": "application/json" },
-      });
-    }
-    else {
-      const products = await db.productCollection.find().toArray();
-      return new Response(JSON.stringify(products), {
-        headers: { "content-type": "application/json" },
-      });
-    }
+    const data = await getProducts({
+      q,
+      skip,
+      limit,
+      sort,
+      category,
+      price,
+      rating,
+    });
+    return new Response(JSON.stringify(data), {
+      headers: { "content-type": "application/json" },
+    });
   } catch (error) {
     return new Response(JSON.stringify(error), {
       headers: { "content-type": "application/json" },
@@ -49,9 +33,9 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const data = await request.json();
-    const product = await db.productCollection.insertOne(data);
-    return new Response(JSON.stringify(product), {
+    const body = await request.json();
+    const data = await createProduct(body);
+    return new Response(JSON.stringify(data), {
       headers: { "content-type": "application/json" },
     });
   } catch (error) {

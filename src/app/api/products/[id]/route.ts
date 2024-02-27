@@ -1,11 +1,13 @@
-import { db } from "@/db";
-import { ObjectId } from "mongodb";
+import { deleteProduct, getProduct, updateProduct } from "@/data/product";
 
-export async function GET(request: Request, {params}: {params: {id: string}}) {
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } },
+) {
   try {
     const id = params.id;
-    console.log(id)
-    const product = await db.productCollection.findOne({ _id: new ObjectId(id) });
+    console.log(id);
+    const product = await getProduct(id);
     return new Response(JSON.stringify(product), {
       headers: { "content-type": "application/json" },
     });
@@ -16,14 +18,14 @@ export async function GET(request: Request, {params}: {params: {id: string}}) {
   }
 }
 
-export async function PATCH(request: Request, {params}: {params: {id: string}}) {
+export async function PATCH(
+  request: Request,
+  { params }: { params: { id: string } },
+) {
   try {
     const id = params.id;
-    const product = await db.productCollection.findOneAndUpdate(
-      { _id: new ObjectId(id) },
-      { $set: await request.json() },
-      { returnDocument: "after" }
-    );
+    const body = await request.json();
+    const product = await updateProduct(id, body);
     return new Response(JSON.stringify(product), {
       headers: { "content-type": "application/json" },
     });
@@ -34,12 +36,13 @@ export async function PATCH(request: Request, {params}: {params: {id: string}}) 
   }
 }
 
-export async function DELETE(request: Request) {
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } },
+) {
   try {
-    const id = request.url.split("/").pop();
-    const product = await db.productCollection.findOneAndDelete({
-      _id: new ObjectId(id),
-    });
+    const id = params.id;
+    const product = await deleteProduct(id);
     return new Response(JSON.stringify(product), {
       headers: { "content-type": "application/json" },
     });
