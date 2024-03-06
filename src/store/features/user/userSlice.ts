@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { User } from "@supabase/supabase-js";
 
 interface IUser {
-  user: object | null;
+  user: User | null;
 }
 
 const initialState: IUser = {

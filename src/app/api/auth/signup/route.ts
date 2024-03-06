@@ -1,19 +1,23 @@
-import { createUser } from "@/data/user";
 import prisma from "@/lib/prisma";
 
 export async function POST(request: Request) {
   try {
     const data = await request.json();
+    const { email, password, name, role } = data;
     if (!data) {
       return new Response("Request body is required", { status: 400 });
     }
     const exitingUser = await prisma.user.findUnique({
-      where: { email: data.email },
+      where: { email: email },
     });
     if (exitingUser) {
       return new Response("User already exists", { status: 400 });
     }
-    const user = await createUser(data);
+
+    const user = await prisma.user.create({
+      data,
+    });
+
     return new Response(JSON.stringify(user), {
       headers: { "content-type": "application/json" },
     });
@@ -36,13 +40,13 @@ export async function POST(request: Request) {
 //   const cookieStore = cookies();
 //   const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
 
-//   await supabase.auth.signUp({
-//     email,
-//     password,
-//     options: {
-//       emailRedirectTo: `${requestUrl.origin}/auth/callback`,
-//     },
-//   });
+// await supabase.auth.signUp({
+//   email,
+//   password,
+//   options: {
+//     emailRedirectTo: `${requestUrl.origin}/auth/callback`,
+//   },
+// });
 
 //   return NextResponse.redirect(requestUrl.origin, {
 //     status: 301,

@@ -15,6 +15,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { UserRole } from "@prisma/client";
+import { useAppSelector } from "@/store/hook";
 
 const userNavigation = [
   { name: "Dashboard", icon: HomeIcon, href: "/dashboard", current: true },
@@ -76,7 +77,8 @@ function classNames(...classes: string[]) {
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const role = "USER" as UserRole;
+  const { user } = useAppSelector((state) => state.user);
+  const role = user?.role as UserRole;
 
   return (
     <>
@@ -150,7 +152,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 </div>
                 <div className="mt-5 h-0 flex-1 overflow-y-auto">
                   <nav className="space-y-1 px-2">
-                    {role === UserRole.USER &&
+                    {role === UserRole.authenticated &&
                       userNavigation.map((item) => (
                         <a
                           key={item.name}
@@ -174,7 +176,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                           {item.name}
                         </a>
                       ))}
-                    {role === UserRole.ADMIN &&
+                    {role === UserRole.admin &&
                       adminNavigation.map((item) => (
                         <a
                           key={item.name}
@@ -198,7 +200,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                           {item.name}
                         </a>
                       ))}
-                    {role === UserRole.SUPER_ADMIN &&
+                    {role === UserRole.super_admin &&
                       superAdminNavigation.map((item) => (
                         <a
                           key={item.name}
@@ -247,7 +249,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             </div>
             <div className="mt-5 flex flex-grow flex-col">
               <nav className="flex-1 space-y-1 px-2 pb-4">
-                {role === UserRole.USER &&
+                {role === UserRole.authenticated &&
                   userNavigation.map((item) => (
                     <a
                       key={item.name}
@@ -271,7 +273,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                       {item.name}
                     </a>
                   ))}
-                {role === UserRole.ADMIN &&
+                {role === UserRole.admin &&
                   adminNavigation.map((item) => (
                     <a
                       key={item.name}
@@ -295,7 +297,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                       {item.name}
                     </a>
                   ))}
-                {role === UserRole.SUPER_ADMIN &&
+                {role === UserRole.super_admin &&
                   superAdminNavigation.map((item) => (
                     <a
                       key={item.name}

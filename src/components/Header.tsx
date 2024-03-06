@@ -14,12 +14,15 @@ import { Session, User } from "@supabase/supabase-js";
 import Image from "next/image";
 import Link from "next/link";
 import { Switch } from "@/components/ui/switch";
+import { useAppDispatch } from "@/store/hook";
+import { setUser } from "@/store/features/user/userSlice";
 
 const navigation = [
   { name: "Home", href: "/" },
   { name: "Products", href: "/products" },
   { name: "Services", href: "/services" },
   { name: "Blogs", href: "/blogs" },
+  { name: "Dashboard", href: "/dashboard" },
 ];
 
 function classNames(...classes: string[]) {
@@ -28,18 +31,18 @@ function classNames(...classes: string[]) {
 
 export default function Header() {
   const [session, setSession] = useState<Session | null>(null);
-  const [user, setUser] = useState<User | null>(null);
   // console.log(user);
   const [activeNav, setActiveNav] = useState("/");
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const { data: auth } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_OUT") {
         setSession(null);
-        setUser(null);
       } else if (session) {
         setSession(session);
-        setUser(session.user);
+        dispatch(setUser(session.user));
       }
     });
 
@@ -134,7 +137,7 @@ export default function Header() {
                   )}
                 </Disclosure.Button>
               </div>
-              {user ? (
+              {session?.user ? (
                 <div className="hidden lg:ml-4 lg:flex lg:items-center">
                   <button
                     type="button"
@@ -149,12 +152,12 @@ export default function Header() {
                     <div>
                       <Menu.Button className="flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                         <span className="sr-only">Open user menu</span>
-                        {user ? (
+                        {session?.user ? (
                           <Image
                             height={24}
                             width={24}
                             className="h-6 w-6 rounded-full"
-                            src={user.user_metadata.avatar_url}
+                            src={session?.user.user_metadata.avatar_url}
                             alt="user"
                           />
                         ) : (
@@ -248,12 +251,12 @@ export default function Header() {
             <div className="border-t border-gray-200 pb-3 pt-4">
               <div className="flex items-center px-4">
                 <div className="flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                  {user ? (
+                  {session?.user ? (
                     <Image
                       height={40}
                       width={40}
                       className="h-10 w-10 rounded-full"
-                      src={user.user_metadata.avatar_url}
+                      src={session?.user.user_metadata.avatar_url}
                       alt="user"
                     />
                   ) : (
@@ -262,10 +265,10 @@ export default function Header() {
                 </div>
                 <div className="ml-3">
                   <div className="text-base font-medium text-gray-800">
-                    {user ? user.user_metadata.name : ""}
+                    {session ? session?.user.user_metadata.name : ""}
                   </div>
                   <div className="text-sm font-medium text-gray-500">
-                    {user ? user.email : ""}
+                    {session ? session?.user.email : ""}
                   </div>
                 </div>
                 <button

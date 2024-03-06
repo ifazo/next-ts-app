@@ -21,7 +21,15 @@ export default function SignUp() {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await signUp(data.email, data.password)
+    const { name, email, password } = data;
+    await fetch("http://localhost:3000/api/auth/signup", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    await signUp(name, email, password)
       .then(() => {
         toast.success("Account created successfully!");
         router.push("/auth/signin");

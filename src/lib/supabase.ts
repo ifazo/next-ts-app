@@ -16,11 +16,21 @@ export const getSession = async () => {
   }
 };
 
-export const signUp = async (email: string, password: string) => {
+export const getUser = async () => {
+  const { data, error } = await supabase.auth.getUser();
+  if (error) {
+    console.error(error);
+  } else if (data) {
+    console.log(data);
+  }
+};
+
+export const signUp = async (name: string, email: string, password: string) => {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
+      data: { name },
       emailRedirectTo: `${location.origin}/api/auth/callback`,
     },
   });
