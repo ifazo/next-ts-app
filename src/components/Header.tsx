@@ -18,7 +18,7 @@ import { Switch } from "@/components/ui/switch";
 const navigation = [
   { name: "Home", href: "/" },
   { name: "Products", href: "/products" },
-  { name: "Categories", href: "/categories" },
+  { name: "Services", href: "/services" },
   { name: "Blogs", href: "/blogs" },
 ];
 

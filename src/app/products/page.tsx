@@ -1,5 +1,5 @@
 "use client";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
@@ -71,12 +71,24 @@ function classNames(...classes: string[]) {
 
 export default function Page() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [products, setProducts] = useState<Product[] | undefined>(undefined);
 
-  const { data: products, error } = useGetProductsQuery({}) as {
-    data: Product[];
-    error: any;
-  };
-  if (error) return console.log(error);
+  useEffect(() => {
+    fetch("http://localhost:3000/api/products")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setProducts(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+  console.log(products);
 
   return (
     <div className="bg-white">

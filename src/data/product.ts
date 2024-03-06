@@ -3,17 +3,17 @@
 import prisma from "@/lib/prisma";
 
 export const getProducts = async ({
+  q,
   limit,
   skip,
-  q,
   sort,
   category,
   price,
   rating,
 }: {
+  q: string;
   limit: number;
   skip: number;
-  q: string;
   sort: string;
   category: string;
   price: number;
@@ -34,7 +34,8 @@ export const getProducts = async ({
         skip: skip,
       });
       return products;
-    } else if (sort) {
+    }
+    if (sort) {
       const products = await prisma.product.findMany({
         take: limit,
         skip: skip,
@@ -43,7 +44,8 @@ export const getProducts = async ({
         },
       });
       return products;
-    } else if (category) {
+    }
+    if (category) {
       const products = await prisma.product.findMany({
         where: {
           category: {
@@ -54,7 +56,8 @@ export const getProducts = async ({
         skip: skip,
       });
       return products;
-    } else if (price) {
+    }
+    if (price) {
       const products = await prisma.product.findMany({
         where: {
           price: {
@@ -65,7 +68,8 @@ export const getProducts = async ({
         skip: skip,
       });
       return products;
-    } else if (rating) {
+    }
+    if (rating) {
       const products = await prisma.product.findMany({
         where: {
           rating: {
@@ -76,13 +80,12 @@ export const getProducts = async ({
         skip: skip,
       });
       return products;
-    } else {
-      const products = await prisma.product.findMany({
-        take: limit,
-        skip: skip,
-      });
-      return products;
     }
+    const products = await prisma.product.findMany({
+      take: limit,
+      skip: skip,
+    });
+    return products;
   } catch (error) {
     return error;
   }

@@ -4,9 +4,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.BASE_URL || "http://localhost:3000",
+    baseUrl: process.env.BASE_URL || "http://localhost:3000/api",
   }),
-  tagTypes: ["Product", "User", "Category", "Blog"],
+  tagTypes: ["Product", "User", "Service", "Category", "Blog"],
   endpoints: (builder: any) => ({
     getUsers: builder.query({
       query: () => "/users",
@@ -72,6 +72,36 @@ export const api = createApi({
         method: "DELETE",
       }),
       invalidatesTags: ["Product"],
+    }),
+    getServices: builder.query({
+      query: () => "/services",
+      providesTags: ["Service"],
+    }),
+    getService: builder.query({
+      query: (id: any) => `/services/${id}`,
+    }),
+    createService: builder.mutation({
+      query: (body: any) => ({
+        url: "/services",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Service"],
+    }),
+    updateService: builder.mutation({
+      query: ({ id, ...body }: { id: string; body: any }) => ({
+        url: `/services/${id}`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: ["Service"],
+    }),
+    deleteService: builder.mutation({
+      query: (id: any) => ({
+        url: `/services/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Service"],
     }),
     getCategories: builder.query({
       query: () => "/products/categories",
@@ -141,6 +171,11 @@ export const {
   useCreateProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
+  useGetServicesQuery,
+  useGetServiceQuery,
+  useCreateServiceMutation,
+  useUpdateServiceMutation,
+  useDeleteServiceMutation,
   useGetCategoriesQuery,
   useGetCategoryQuery,
   useCreateCategoryMutation,
